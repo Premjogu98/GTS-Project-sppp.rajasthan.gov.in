@@ -13,19 +13,19 @@ def Local_connection():
     a = 0
     while a == 0:
         try:
-            File_Location = open("D:\\0 PYTHON EXE SQL CONNECTION & DRIVER PATH\\sppp.rajasthan.gov.in\\Location For Database & Driver.txt" , "r")
-            TXT_File_AllText = File_Location.read()
-            Local_host = str(TXT_File_AllText).partition("Local_host=")[2].partition(",")[0].strip()
-            Local_user = str(TXT_File_AllText).partition("Local_user=")[2].partition(",")[0].strip()
-            Local_password = str(TXT_File_AllText).partition("Local_password=")[2].partition(",")[0].strip()
-            Local_db = str(TXT_File_AllText).partition("Local_db=")[2].partition(",")[0].strip()
-            Local_charset = str(TXT_File_AllText).partition("Local_charset=")[2].partition("\")")[0].strip()
+            # File_Location = open("D:\\0 PYTHON EXE SQL CONNECTION & DRIVER PATH\\sppp.rajasthan.gov.in\\Location For Database & Driver.txt" , "r")
+            # TXT_File_AllText = File_Location.read()
+            # Local_host = str(TXT_File_AllText).partition("Local_host=")[2].partition(",")[0].strip()
+            # Local_user = str(TXT_File_AllText).partition("Local_user=")[2].partition(",")[0].strip()
+            # Local_password = str(TXT_File_AllText).partition("Local_password=")[2].partition(",")[0].strip()
+            # Local_db = str(TXT_File_AllText).partition("Local_db=")[2].partition(",")[0].strip()
+            # Local_charset = str(TXT_File_AllText).partition("Local_charset=")[2].partition("\")")[0].strip()
             mydb_Local = mysql.connector.connect(
-                host=str(Local_host) ,
-                user=str(Local_user) ,
-                passwd=str(Local_password) ,
-                database=str(Local_db) ,
-                charset=str(Local_charset))
+                host='192.168.0.202' ,
+                user='ams' ,
+                passwd='amsbind' ,
+                database='Tenders_India' ,
+                charset='utf8')
             print('SQL Connected Local_connection')
             a = 1
             return mydb_Local
@@ -35,7 +35,7 @@ def Local_connection():
             print("Error ON : " , sys._getframe().f_code.co_name + "--> " + str(e) , "\n" , exc_type , "\n" , fname ,
                   "\n" , exc_tb.tb_lineno)
             time.sleep(10)
-            mydb_Local.close()
+            
             a = 0
 
 
@@ -44,21 +44,21 @@ def L2L_connection():
     a3 = 0
     while a3 == 0:
         try:
-            File_Location = open("D:\\0 PYTHON EXE SQL CONNECTION & DRIVER PATH\\sppp.rajasthan.gov.in\\Location For Database & Driver.txt" , "r")
-            TXT_File_AllText = File_Location.read()
+            # File_Location = open("D:\\0 PYTHON EXE SQL CONNECTION & DRIVER PATH\\sppp.rajasthan.gov.in\\Location For Database & Driver.txt" , "r")
+            # TXT_File_AllText = File_Location.read()
 
-            L2L_host = str(TXT_File_AllText).partition("L2L_host=")[2].partition(",")[0].strip()
-            L2L_user = str(TXT_File_AllText).partition("L2L_user=")[2].partition(",")[0].strip()
-            L2L_password = str(TXT_File_AllText).partition("L2L_password=")[2].partition(",")[0].strip()
-            L2L_db = str(TXT_File_AllText).partition("L2L_db=")[2].partition(",")[0].strip()
-            L2L_charset = str(TXT_File_AllText).partition("L2L_charset=")[2].partition("\")")[0].strip()
+            # L2L_host = str(TXT_File_AllText).partition("L2L_host=")[2].partition(",")[0].strip()
+            # L2L_user = str(TXT_File_AllText).partition("L2L_user=")[2].partition(",")[0].strip()
+            # L2L_password = str(TXT_File_AllText).partition("L2L_password=")[2].partition(",")[0].strip()
+            # L2L_db = str(TXT_File_AllText).partition("L2L_db=")[2].partition(",")[0].strip()
+            # L2L_charset = str(TXT_File_AllText).partition("L2L_charset=")[2].partition("\")")[0].strip()
 
             mydb_L2L = mysql.connector.connect(
-                host=str(L2L_host) ,
-                user=str(L2L_user) ,
-                passwd=str(L2L_password) ,
-                database=str(L2L_db) ,
-                charset=str(L2L_charset))
+                host='192.168.0.202' ,
+                user='ams' ,
+                passwd='amsbind' ,
+                database='AMS_Master_FinalDB' ,
+                charset='utf8')
             print('SQL Connected L2L_connection')
 
             a3 = 1

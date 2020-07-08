@@ -12,10 +12,11 @@ app = wx.App()
 
 def Choromedriver():
     try:
-        File_Location = open("D:\\0 PYTHON EXE SQL CONNECTION & DRIVER PATH\\sppp.rajasthan.gov.in\\Location For Database & Driver.txt" , "r")
-        TXT_File_AllText = File_Location.read()
-        Chromedriver = str(TXT_File_AllText).partition("Driver=")[2].partition("\")")[0].strip()
-        browser = webdriver.Chrome(Chromedriver)
+        # File_Location = open("D:\\0 PYTHON EXE SQL CONNECTION & DRIVER PATH\\sppp.rajasthan.gov.in\\Location For Database & Driver.txt" , "r")
+        # TXT_File_AllText = File_Location.read()
+        # Chromedriver = str(TXT_File_AllText).partition("Driver=")[2].partition("\")")[0].strip()
+        # browser = webdriver.Chrome(Chromedriver)
+        browser = webdriver.Chrome(executable_path=str(f"D:\\Translation EXE\\chromedriver.exe"))
         browser.get('https://sppp.rajasthan.gov.in')
         # alert = browser.switch_to_alert()  # Close Alert Popup
         # alert.dismiss()

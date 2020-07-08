@@ -270,14 +270,16 @@ def Scraping_data(get_htmlSource , browser):
             # Tender Source
             SegFeild[31] = "sppp.rajasthan.gov.in"
 
-            for Segdata in range(len(SegFeild)):
-                print(Segdata , end=' ')
-                print(SegFeild[Segdata])
-                SegFeild = [w.replace('#39;', '\'') for w in SegFeild]
-
+            for SegIndex in range(len(SegFeild)):
+                print(SegIndex, end=' ')
+                print(SegFeild[SegIndex])
+                SegFeild[SegIndex] = html.unescape(str(SegFeild[SegIndex]))
+                SegFeild[SegIndex] = str(SegFeild[SegIndex]).replace("'", "''").replace('#39;', '\'')
+                
             a = 1
             if len(SegFeild[19]) >= 200:
                 SegFeild[19] = str(SegFeild[19])[:200]+'...'
+
             Check_date(get_htmlSource , browser , SegFeild)
         except Exception as e:
             exc_type , exc_obj , exc_tb = sys.exc_info()
