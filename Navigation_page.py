@@ -67,6 +67,7 @@ def navigating_pages(browser):
                         print(" Total: " + str(Global_var.Total) + " Duplicate: " + str(Global_var.duplicate) + " Expired: " + str(Global_var.expired) + " Inserted: " + str(Global_var.inserted) + " Skipped: " + str(Global_var.skipped) + " Deadline Not given: " + str(Global_var.deadline_Not_given) + " QC Tenders: "
                                                          + str(Global_var.QC_tender),"\n")
                         clicking_process(browser , xpath)
+                        time.sleep(8)
                         a = 1
                         break
                     else:
@@ -122,7 +123,6 @@ def clicking_process(browser , xpath):
                 Scraping_data(get_htmlSource , browser)
                 browser.switch_to.window(browser.window_handles[1])
                 browser.close()
-
                 a = 1
         except Exception as e:
             browser.switch_to.window(browser.window_handles[0])
