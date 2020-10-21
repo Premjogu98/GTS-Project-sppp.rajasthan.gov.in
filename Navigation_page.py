@@ -12,20 +12,15 @@ app = wx.App()
 
 def Choromedriver():
     try:
-        # File_Location = open("D:\\0 PYTHON EXE SQL CONNECTION & DRIVER PATH\\sppp.rajasthan.gov.in\\Location For Database & Driver.txt" , "r")
-        # TXT_File_AllText = File_Location.read()
-        # Chromedriver = str(TXT_File_AllText).partition("Driver=")[2].partition("\")")[0].strip()
-        # browser = webdriver.Chrome(Chromedriver)
-        browser = webdriver.Chrome(executable_path=str(f"D:\\Translation EXE\\chromedriver.exe"))
-        browser.get('https://sppp.rajasthan.gov.in')
-        # alert = browser.switch_to_alert()  # Close Alert Popup
-        # alert.dismiss()
+        
+        browser = webdriver.Chrome(executable_path=str(f"C:\\Translation EXE\\chromedriver.exe"))
+        browser.get('https://sppp.rajasthan.gov.in/sppp/index.php')
         browser.maximize_window()
         time.sleep(2)
         a = 0
         while a == 0:
             try:
-                for latest_Active_Bid in browser.find_elements_by_xpath("//*[@id=\"latest_active_bid\"]/a"):
+                for latest_Active_Bid in browser.find_elements_by_xpath('//*[@id="latest_active_bid"]/a'):
                     latest_Active_Bid.click()
                     a = 1
             except Exception as e:
@@ -33,7 +28,7 @@ def Choromedriver():
         a = 0
         while a == 0:
             try:
-                for dropdown in browser.find_elements_by_xpath("//*[@id=\"examplesearch_length\"]/label/select"):
+                for dropdown in browser.find_elements_by_xpath('//*[@id="examplesearch_length"]/label/select'):
                     dropdown.click()
                     for in_date in browser.find_elements_by_tag_name('option'):
                         if in_date.text == '100':
@@ -52,7 +47,6 @@ def navigating_pages(browser):
         try:
             for add in range(1 , 101 , 1):
                 xpath = []
-
                 browser.switch_to.window(browser.window_handles[0])
                 xpath_link = "//*[@id=\"examplesearch\"]/tbody/tr[" + str(add) + "]/td[8]/a"
                 xpath.append(xpath_link)
@@ -64,14 +58,13 @@ def navigating_pages(browser):
                     print(Global_var.From_Date)
                     if publish_date1 >= Global_var.From_Date:
                         print("♥ Tender Date Alive ♥")
-                        print(" Total: " + str(Global_var.Total) + " Duplicate: " + str(Global_var.duplicate) + " Expired: " + str(Global_var.expired) + " Inserted: " + str(Global_var.inserted) + " Skipped: " + str(Global_var.skipped) + " Deadline Not given: " + str(Global_var.deadline_Not_given) + " QC Tenders: "
-                                                         + str(Global_var.QC_tender),"\n")
                         clicking_process(browser , xpath)
+                        print(" Total: " + str(Global_var.Total) + " Duplicate: " + str(Global_var.duplicate) + " Expired: " + str(Global_var.expired) + " Inserted: " + str(Global_var.inserted) + " Skipped: " + str(Global_var.skipped) + " Deadline Not given: " + str(Global_var.deadline_Not_given) + " QC Tenders: "+ str(Global_var.QC_tender),"\n")
+                        time.sleep(8)
                         a = 1
                         break
                     else:
-                        ctypes.windll.user32.MessageBoxW(0 , "Total: " + str(Global_var.Total) + "\n""Duplicate: " + str(Global_var.duplicate) + "\n""Expired: " + str(Global_var.expired) + "\n""Inserted: " + str(Global_var.inserted) + "\n""Skipped: " + str(Global_var.skipped) + "\n""Deadline Not given: " + str(Global_var.deadline_Not_given) + "\n""QC Tenders: "
-                                                         + str(Global_var.QC_tender) + "" , "sppp.rajasthan.gov.in" , 1)
+                        ctypes.windll.user32.MessageBoxW(0 , "Total: " + str(Global_var.Total) + "\n""Duplicate: " + str(Global_var.duplicate) + "\n""Expired: " + str(Global_var.expired) + "\n""Inserted: " + str(Global_var.inserted) + "\n""Skipped: " + str(Global_var.skipped) + "\n""Deadline Not given: " + str(Global_var.deadline_Not_given) + "\n""QC Tenders: "+ str(Global_var.QC_tender) + "" , "sppp.rajasthan.gov.in" , 1)
                         Global_var.Process_End()
                         browser.close()
                         sys.exit()
@@ -119,10 +112,9 @@ def clicking_process(browser , xpath):
                 get_htmlSource = str(get_htmlSource).replace('href="sppp/pdfshowrecord.php' ,'href="https://sppp.rajasthan.gov.in/sppp/pdfshowrecord.php').replace('images/','https://sppp.rajasthan.gov.in/images/')
                 get_htmlSource = get_htmlSource.replace("&amp;amp" , "&")
                 get_htmlSource = get_htmlSource.replace("&amp;" , "&")
-                Scraping_data(get_htmlSource , browser)
+                Scraping_data(get_htmlSource)
                 browser.switch_to.window(browser.window_handles[1])
                 browser.close()
-
                 a = 1
         except Exception as e:
             browser.switch_to.window(browser.window_handles[0])

@@ -39,14 +39,14 @@ app = wx.App()
 #             time.sleep(5)
 
 
-def Scraping_data(get_htmlSource , browser):
+def Scraping_data(get_htmlSource):
     a = 0
     while a == 0:
         try:
             SegFeild = []
-            for data in range(42):
+            for data in range(45):
                 SegFeild.append('')
-            new_get_htmlSource = get_htmlSource.replace("\n" , "")
+            new_get_htmlSource = get_htmlSource.replace("\n" , "").replace('ng-if="!isjson"' , "")
             new_get_htmlSource = new_get_htmlSource.replace("&nbsp;" , " ")
             new_get_htmlSource = new_get_htmlSource.replace("&amp;amp" , "&")
             new_get_htmlSource = new_get_htmlSource.replace("&amp;" , "&")
@@ -61,15 +61,12 @@ def Scraping_data(get_htmlSource , browser):
             new_get_htmlSource: str = new_get_htmlSource.replace("&AMP;" , "&")
             new_get_htmlSource: str = new_get_htmlSource.replace("&;amp" , "&")
             new_get_htmlSource: str = new_get_htmlSource.replace("&;AMP" , "&")
-            new_get_htmlSource: str = new_get_htmlSource.replace(" ng-if=\"!isjson\"" , "")
-
-            # print(new_get_htmlSource)
-
+            new_get_htmlSource = html.unescape(str(new_get_htmlSource))
             Email = re.search(r'(?<=<td class="data_text">Email: ).*?(?=, Mobile)' , get_htmlSource).group(0)
             Email = Email.replace("[at]" , "@")
             Email = Email.replace("[dot]" , ".")
             SegFeild[1] = Email.strip()
-            # print(Email)
+            
 
             # Address
             CustomerName = ""
@@ -82,18 +79,12 @@ def Scraping_data(get_htmlSource , browser):
                 translator = Translator()
                 translator_text = translator.translate(str(CustomerName))
                 CustomerName = translator_text.text
-                # CustomerName = Translate(CustomerName).strip()
             if CustomerName.isupper():
                 CustomerName = string.capwords(str(CustomerName)).strip()
             Address = re.search(r'(?<=Office Address).*?(?=</tr>)' , new_get_htmlSource).group(0)
             Address = re.search(r'(?<=class="data_text">).*?(?=</td>)' , Address).group(0)
             Address = re.sub(' +', ' ', str(Address))
-            # if re.match("^[\W A-Za-z0-9_@?./#&+-]*$" , Address):
-            #     print()  # This string are in English
-            # else:
-            #     translator = Translator()
-            #     translator_text = translator.translate(str(Address))
-            #     Address = translator_text.text
+            
             if Address[0].islower():
                 Address = str(Address[0]).upper() + Address[1:]
             else:
@@ -125,10 +116,7 @@ def Scraping_data(get_htmlSource , browser):
             Department_Name = re.search(r'(?<=Department Name).*?(?=</tr>)' , new_get_htmlSource).group(0)
             Department_Name = re.search(r'(?<=class="data_text">).*?(?=</td>)' , Department_Name).group(0).upper()
             Department_Name = re.sub(' +', ' ', str(Department_Name))  # Remove Multiple Spaces
-            # translator = Translator()
-            # translator_text = translator.translate(str(Department_Name))
-            # Department_Name = translator_text.text
-            # Department_Name = Translate(Department_Name)
+            
             SegFeild[12] = Department_Name.strip()
 
             # Tender NO
@@ -150,7 +138,7 @@ def Scraping_data(get_htmlSource , browser):
             Dec_Title = re.search(r'(?<=Bid Title).*?(?=</tr>)' , new_get_htmlSource).group(0)
             Dec_Title = re.search(r'(?<=class="data_text">).*?(?=</td>)' , Dec_Title).group(0)
             Dec_Title = Dec_Title.replace("&amp;amp" , "&")
-            Dec_Title = re.sub(' +', ' ', str(Dec_Title))
+            Dec_Title = re.sub('\s+', ' ', str(Dec_Title))
             Dec_Title = str(Dec_Title[0:200])
             # if re.match("^[\W A-Za-z0-9_@?./#&+-]*$" , Dec_Title):
             #     print()  # This string are in English
@@ -168,16 +156,9 @@ def Scraping_data(get_htmlSource , browser):
 
             Bid_Pattern = re.search(r'(?<=Bid Pattern).*?(?=</tr>)' , new_get_htmlSource).group(0)
             Bid_Pattern = re.search(r'(?<=class="data_text">).*?(?=</td>)' , Bid_Pattern).group(0)
-            # translator = Translator()
-            # translator_text = translator.translate(str(Bid_Pattern))
-            # Bid_Pattern = translator_text.text
-            # Bid_Pattern = Translate(Bid_Pattern)
-
-            # for Bid_Amount in browser.find_elements_by_xpath("//*[@id=\"print-this-table\"]/tbody/tr[2]/td/table/tbody/tr[6]/td/table/tbody/tr[7]/td[2]"):
-            #     Bid_Amount = Bid_Amount.get_attribute("innerText")
 
             Bid_Amount = re.search(r'(?<=Bid Amount).*?(?=</tr>)' , new_get_htmlSource).group(0)
-            Bid_Amount = re.search(r'(?<=</i>).*?(?=</td>)' , Bid_Amount).group(0).replace(" ", "")
+            Bid_Amount = re.search(r'(?<=</i>).*?(?=</td>)' , Bid_Amount).group(0).replace(" ", "").replace(',','')
 
             Bid_Required_in_Cover = re.search(r'(?<=Bid Required in Cover).*?(?=</tr>)' , new_get_htmlSource).group(0)
             Bid_Required_in_Cover = re.search(r'(?<=class="data_text">).*?(?=</td>)' , Bid_Required_in_Cover).group(0).replace(" ","")
@@ -240,8 +221,7 @@ def Scraping_data(get_htmlSource , browser):
                     Global_var.Main_Title = string.capwords(str(Global_var.Main_Title))
                     SegFeild[19] = Global_var.Main_Title.strip()
             else:
-                # if Global_var.Main_Title.isupper():
-                #     Global_var.Main_Title = string.capwords(str(Global_var.Main_Title))
+               
                 Global_var.Main_Title = string.capwords(str(Global_var.Main_Title))
                 SegFeild[19] = Global_var.Main_Title.strip()
 
@@ -250,8 +230,9 @@ def Scraping_data(get_htmlSource , browser):
             Bid_Amount = re.search(r'(?<=</i>).*?(?=</td>)' , Bid_Amount).group(0).replace(" ", "")
             if Bid_Amount != "":
                 SegFeild[20] = Bid_Amount.strip()
+                SegFeild[21] = 'INR'
             else:
-                SegFeild[20] = "0.0"
+                SegFeild[20] = ""
 
             # Submission Date
             Bid_Submission_End_Date2 = re.search(r'(?<=Bid Submission End Date).*?(?=</tr>)' ,new_get_htmlSource).group(0)
@@ -259,11 +240,12 @@ def Scraping_data(get_htmlSource , browser):
             Bid_Submission_End_Date2 = Bid_Submission_End_Date2.replace(" " , "")
             datetime_object = datetime.strptime(Bid_Submission_End_Date2 , '%d/%m/%Y')
             Bid_Submission_End_Date2 = datetime_object.strftime("%Y-%m-%d")
-            SegFeild[22] = "0.0"  # doc_cost
+            SegFeild[22] = ""  # doc_cost
             SegFeild[24] = Bid_Submission_End_Date2.strip()
-            SegFeild[26] = "0.0"  # earnest_money
+            SegFeild[26] = ""  # earnest_money
             SegFeild[27] = "0"  # Financier
-
+            SegFeild[42] = SegFeild[7]
+            SegFeild[43] = ""
             # Tender Link
             SegFeild[28] = 'https://sppp.rajasthan.gov.in'
 
@@ -275,19 +257,17 @@ def Scraping_data(get_htmlSource , browser):
                 print(SegFeild[SegIndex])
                 SegFeild[SegIndex] = html.unescape(str(SegFeild[SegIndex]))
                 SegFeild[SegIndex] = str(SegFeild[SegIndex]).replace("'", "''").replace('#39;', '\'')
-                
             a = 1
             if len(SegFeild[19]) >= 200:
                 SegFeild[19] = str(SegFeild[19])[:200]+'...'
-
-            Check_date(get_htmlSource , browser , SegFeild)
+            Check_date(get_htmlSource, SegFeild)
         except Exception as e:
             exc_type , exc_obj , exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
             print("Error ON : " , sys._getframe().f_code.co_name + "--> " + str(e) , "\n" , exc_type , "\n" , fname ,"\n" , exc_tb.tb_lineno)
 
 
-def Check_date(get_htmlSource , browser , SegFeild):
+def Check_date(get_htmlSource , SegFeild):
     a = 0
     while a == 0:
         tender_date = str(SegFeild[24])
@@ -298,7 +278,7 @@ def Check_date(get_htmlSource , browser , SegFeild):
                 deadline = time.strptime(tender_date , "%Y-%m-%d")
                 currentdate = time.strptime(date2 , "%Y-%m-%d")
                 if deadline > currentdate:
-                    insert_in_Local(get_htmlSource , browser , SegFeild)
+                    insert_in_Local(get_htmlSource , SegFeild)
                     a = 1
                 else:
                     print("Expired")
@@ -311,6 +291,5 @@ def Check_date(get_htmlSource , browser , SegFeild):
         except Exception as e:
             exc_type , exc_obj , exc_tb = sys.exc_info()
             fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
-            print("Error ON : " , sys._getframe().f_code.co_name + "--> " + str(e) , "\n" , exc_type , "\n" , fname , "\n" ,
-                  exc_tb.tb_lineno)
+            print("Error ON : " , sys._getframe().f_code.co_name + "--> " + str(e) , "\n" , exc_type , "\n" , fname , "\n" ,exc_tb.tb_lineno)
             a = 0
