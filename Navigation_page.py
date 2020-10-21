@@ -59,7 +59,10 @@ def navigating_pages(browser):
                     if publish_date1 >= Global_var.From_Date:
                         print("♥ Tender Date Alive ♥")
                         clicking_process(browser , xpath)
+<<<<<<< HEAD
                         print(" Total: " + str(Global_var.Total) + " Duplicate: " + str(Global_var.duplicate) + " Expired: " + str(Global_var.expired) + " Inserted: " + str(Global_var.inserted) + " Skipped: " + str(Global_var.skipped) + " Deadline Not given: " + str(Global_var.deadline_Not_given) + " QC Tenders: "+ str(Global_var.QC_tender),"\n")
+=======
+>>>>>>> f775afc60ce0f0f10c61760a67d32776608a53ae
                         time.sleep(8)
                         a = 1
                         break
