@@ -140,12 +140,12 @@ def Scraping_data(get_htmlSource):
             Dec_Title = Dec_Title.replace("&amp;amp" , "&")
             Dec_Title = re.sub('\s+', ' ', str(Dec_Title))
             Dec_Title = str(Dec_Title[0:200])
-            # if re.match("^[\W A-Za-z0-9_@?./#&+-]*$" , Dec_Title):
-            #     print()  # This string are in English
-            # else:
-            #     translator = Translator()
-            #     translator_text = translator.translate(str(Dec_Title))
-            #     Dec_Title = translator_text.text
+            if re.match("^[\W A-Za-z0-9_@?./#&+-]*$" , Dec_Title):
+                print()  # This string are in English
+            else:
+                translator = Translator()
+                translator_text = translator.translate(str(Dec_Title))
+                Dec_Title = translator_text.text
             try:
                 if Dec_Title[0].islower():
                     Dec_Title = str(Dec_Title[0]).upper() + Dec_Title[1:]
@@ -178,7 +178,7 @@ def Scraping_data(get_htmlSource):
             Bid_Open_Date = re.search(r'(?<=Bid Open Date).*?(?=</tr>)' , new_get_htmlSource).group(0)
             Bid_Open_Date = re.search(r'(?<=class="data_text">).*?(?=</td>)' , Bid_Open_Date).group(0).replace(" " , "")
 
-            Tenders_Details = "Title:" + Dec_Title.strip() + "<br>\n""Bid Type:" + Bid_Type.strip() + "<br>\n""Bid Sub Type: " + Bid_Sub_Type.strip() + "<br>\n""Bid Pattern: " + Bid_Pattern.strip() + "<br>\n""Bid Amount: " + Bid_Amount.strip() + "<br>\n""Bid Required in Cover: " + Bid_Required_in_Cover.strip() + "<br>\n""Bid Uploaded Date: " + Bid_Uploaded_Date.strip() + "<br>\n""Bid Publish Date: " + Bid_Publish_Date.strip() + "<br>\n""Available for Public Since: " + Available_for_Public_Since.strip() + "<br>\n""Bid Submission End Date: " + Bid_Submission_End_Date.strip() + "<br>\n""Bid Open Date: " + Bid_Open_Date.strip()
+            Tenders_Details = "Bid Type:" + Bid_Type.strip() + "<br>\n""Bid Sub Type: " + Bid_Sub_Type.strip() + "<br>\n""Bid Pattern: " + Bid_Pattern.strip() + "<br>\n""Bid Amount: " + Bid_Amount.strip() + "<br>\n""Bid Required in Cover: " + Bid_Required_in_Cover.strip() + "<br>\n""Bid Uploaded Date: " + Bid_Uploaded_Date.strip() + "<br>\n""Bid Publish Date: " + Bid_Publish_Date.strip() + "<br>\n""Available for Public Since: " + Available_for_Public_Since.strip() + "<br>\n""Bid Submission End Date: " + Bid_Submission_End_Date.strip() + "<br>\n""Bid Open Date: " + Bid_Open_Date.strip()
             Tenders_Details = str(Tenders_Details).strip('()')
             SegFeild[18] = Tenders_Details
 
